@@ -82,3 +82,12 @@ a class `c` with two superclasses with conflicting orders.
     local ok, err = pcall (c3, c)
     assert.is_falsy  (ok)
     assert.is_truthy (err:match "linearization failed")
+
+Testing
+-------
+
+Tests are written as code listings in source code comments. To run them,
+install `luassert` and `doccotest` and run:
+
+    doccotest src/c3.lua
+
