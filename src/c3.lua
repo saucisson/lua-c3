@@ -104,9 +104,11 @@ function C3.new (options)
   return function (x)
     local seen = {}
     local function linearize (t)
-      local cached = cache [t]
-      if cached then
-        return cached
+      if options.cache then
+        local cached = cache [t]
+        if cached then
+          return cached
+        end
       end
       if seen [t] then
         return {}
