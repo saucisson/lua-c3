@@ -195,7 +195,9 @@ function C3.new (options)
       for i = 1, #result/2 do
         result [i], result [#result-i+1] = result [#result-i+1], result [i]
       end
-      cache [t] = result
+      if options.cache then
+        cache [t] = result
+      end
       return result
     end
     return linearize (x)
