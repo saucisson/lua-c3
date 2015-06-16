@@ -129,9 +129,9 @@ function C3.new (options)
           if #linearized ~= 0 then
             local ll = {}
             for j = 1, #linearized do
-              local x = linearized [j]
-              if x ~= t then
-                ll [#ll+1] = x
+              local z = linearized [j]
+              if z ~= t then
+                ll [#ll+1] = z
               end
             end
             l [#l+1] = ll
