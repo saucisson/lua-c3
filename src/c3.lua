@@ -14,9 +14,8 @@
 -- These orders differ from the one used in the Wikipedia article,
 -- but it allows an efficient implementation.
 
-local C3    = {}
 local Cache = {}
-Cache.__mode      = "k"
+Cache.__mode = "k"
 
 -- Example
 -- -------
