@@ -24,15 +24,18 @@ Here, we simply use the identity function for `superclass`: the superclasses
 are stored within the class, from `1` (the lowest priority) to `n` (the
 highest priority).
 
+````lua
     C3 = require "c3"
     c3 = C3.new {
       superclass = function (x) return x end,
     }
+````
 
 Then, build the class hierarchy. Here, we follow the example given in
 [Wikipedia](http://en.wikipedia.org/wiki/C3_linearization). We check that
 linearization works as expected:
 
+````lua
     local o  = {}
     local a  = { o, }
     local b  = { o, }
@@ -54,6 +57,7 @@ linearization works as expected:
     assert.are.same (c3 (k2), { o, e, b, d, k2, })
     assert.are.same (c3 (k3), { o, a, d, k3, })
     assert.are.same (c3 (z ), { o, e, c, b, a, d, k3, k2, k1, z, })
+````
 
 Cycles
 ------
@@ -61,12 +65,14 @@ Cycles
 Cycles can occur in a class hierarchy. They are handled as expected,
 by cutting the `superclass` search when a class has already been encountered.
 
+````lua
     local a, b = {}, {}
     a [1] = b
     b [1] = a
     local assert = require "luassert"
     assert.are.same (c3 (a), { b, a, })
     assert.are.same (c3 (b), { a, b, })
+````
 
 Errors
 ------
@@ -75,6 +81,7 @@ Linearization can fail sometimes, but it is quite difficult to get in such
 cases. The example below creates an error, because we try to linearize
 a class `c` with two superclasses with conflicting orders.
 
+````lua
     local a, b = {}, {}
     a [1] = b
     b [1] = a
@@ -83,9 +90,14 @@ a class `c` with two superclasses with conflicting orders.
     local ok, err = pcall (c3, c)
     assert.is_falsy  (ok)
     assert.is_truthy (err:match "linearization failed")
+````
 
 Caching
 -------
 
 Linearization uses a cache, that is by default reused between calls.
-It can be emptied using the `c3:clear ()` method.
+It can be emptied using the `clear` method.
+
+````lua
+    c3:clear ()
+````
