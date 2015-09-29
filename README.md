@@ -9,10 +9,10 @@ and handles cycles.
 
 The `superclass` function takes as input a class, and returns its direct
 superclasses, from the lowest to the highest priority.
-The C3 function returns a linaerization of the classes, also from
-the lowest to the highest priority.
-These orders differ from the one used in the Wikipedia article,
-but it allows an efficient implementation.
+The C3 function returns a linearization of the classes, also from
+the lowest to the highest priority. These orders differ from the one used in
+the [Wikipedia](http://en.wikipedia.org/wiki/C3_linearization) article,
+but they allow an efficient implementation.
 
 Example
 -------
@@ -30,7 +30,8 @@ highest priority).
     }
 
 Then, build the class hierarchy. Here, we follow the example given in
-[Wikipedia](http://en.wikipedia.org/wiki/C3_linearization). We check that linearization works as expected:
+[Wikipedia](http://en.wikipedia.org/wiki/C3_linearization). We check that
+linearization works as expected:
 
     local o  = {}
     local a  = { o, }
@@ -58,7 +59,7 @@ Cycles
 ------
 
 Cycles can occur in a class hierarchy. They are handled as expected,
-by cutting the `superclass` search when a class has already been encoutered.
+by cutting the `superclass` search when a class has already been encountered.
 
     local a, b = {}, {}
     a [1] = b
@@ -83,11 +84,8 @@ a class `c` with two superclasses with conflicting orders.
     assert.is_falsy  (ok)
     assert.is_truthy (err:match "linearization failed")
 
-Testing
+Caching
 -------
 
-Tests are written as code listings in source code comments. To run them,
-install `luassert` and `doccotest` and run:
-
-    doccotest src/c3.lua
-
+Linearization uses a cache, that is by default reused between calls.
+It can be emptied using the `c3:clear ()` method.
