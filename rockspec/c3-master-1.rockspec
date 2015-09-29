@@ -7,9 +7,11 @@ source = {
 
 description = {
   summary     = "C3 linearization algoritm",
-  detailed    = [[This module is an implementation in Lua of the C3 linearization algorithm.]],
+  detailed    = [[
+    This module is an implementation in Lua of the C3 linearization algorithm.
+  ]],
   license     = "MIT/X11",
-  maintainer  = "Alban Linard <alban.linard@lsv.ens-cachan.fr>",
+  maintainer  = "Alban Linard <alban@linard.fr>",
 }
 
 dependencies = {
