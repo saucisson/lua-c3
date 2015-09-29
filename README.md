@@ -14,6 +14,15 @@ the lowest to the highest priority. These orders differ from the one used in
 the [Wikipedia](http://en.wikipedia.org/wiki/C3_linearization) article,
 but they allow an efficient implementation.
 
+Install
+-------
+
+This module is available as a Lua rock:
+
+````sh
+    luarocks install c3
+````
+
 Example
 -------
 
