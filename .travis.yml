@@ -23,11 +23,11 @@ install:
   - luarocks make rockspec/*-master-1.rockspec
 
 script:
-  - luacheck --no-unused-args --std max+busted src/*.lua test/*.lua
-  - busted --verbose --coverage test/*.lua
+  - luacheck --std max+busted src/*.lua test/*.lua
+  - busted --verbose --coverage --pattern=test test
 
 after_success:
-  - luacov-coveralls --exclude $TRAVIS_BUILD_DIR/lua_install
+  - luacov-coveralls --exclude "lua_install"
 
 notifications:
   recipients:
