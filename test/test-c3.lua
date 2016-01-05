@@ -19,6 +19,15 @@ describe ("the c3 module", function ()
     end)
   end)
 
+  it ("detects non-callable superclass", function ()
+    assert.has.error (function ()
+      local C3 = require "c3"
+      C3.new {
+        superclass = true,
+      }
+    end)
+  end)
+
   it ("runs on the Wikipedia example", function ()
     local o  = {}
     local a  = { o, }
