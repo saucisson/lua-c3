@@ -27,7 +27,7 @@ script:
   - busted --verbose --coverage --pattern=test test
 
 after_success:
-  - luacov-coveralls --exclude "test-c3.lua" --exclude "lua_install"
+  - luacov-coveralls --exclude "test" --exclude "lua_install"
 
 notifications:
   recipients:
