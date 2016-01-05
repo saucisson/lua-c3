@@ -6,14 +6,14 @@ describe ("the c3 module", function ()
 
   it ("can be required", function ()
     assert.has.no.error (function ()
-      local C3 = require "c3"
+      require "c3"
     end)
   end)
 
   it ("can be instantiated", function ()
     assert.has.no.error (function ()
       local C3 = require "c3"
-      c3 = C3.new {
+      C3.new {
         superclass = function (x) return x end,
       }
     end)
@@ -31,7 +31,7 @@ describe ("the c3 module", function ()
     local k3 = { d, a, }
     local z  = { k3, k2, k1, }
     local C3 = require "c3"
-    c3 = C3.new {
+    local c3 = C3.new {
       superclass = function (x) return x end,
     }
     assert.are.same (c3 (o ), { o, })
@@ -49,7 +49,7 @@ describe ("the c3 module", function ()
   it ("handles cycles", function ()
     assert.has.no.error (function ()
       local C3 = require "c3"
-      c3 = C3.new {
+      local c3 = C3.new {
         superclass = function (x) return x end,
       }
       local a, b = {}, {}
@@ -63,14 +63,13 @@ describe ("the c3 module", function ()
   it ("reports an error in case of conflicting orders", function ()
     assert.has.no.error (function ()
       local C3 = require "c3"
-      c3 = C3.new {
+      local c3 = C3.new {
         superclass = function (x) return x end,
       }
       local a, b = {}, {}
       a [1] = b
       b [1] = a
       local c = { a, b, }
-      local assert = require "luassert"
       local ok, err = pcall (c3, c)
       assert.is_falsy  (ok)
       assert.is_truthy (err:match "linearization failed")
@@ -80,7 +79,7 @@ describe ("the c3 module", function ()
   it ("allows to clear the cache", function ()
     assert.has.no.error (function ()
       local C3 = require "c3"
-      c3 = C3.new {
+      local c3 = C3.new {
         superclass = function (x) return x end,
       }
       c3:clear ()
