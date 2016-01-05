@@ -1,5 +1,7 @@
-C3 superclass linearization
-===========================
+[![Build Status](https://travis-ci.org/saucisson/lua-c3.svg?branch=master)](https://travis-ci.org/saucisson/lua-c3)
+[![Coverage Status](https://coveralls.io/repos/saucisson/lua-c3/badge.svg?branch=master&service=github)](https://coveralls.io/github/saucisson/lua-c3?branch=master)
+
+# C3 superclass linearization
 
 This module is an implementation in Lua of the
 [C3 linearization algorithm](http://en.wikipedia.org/wiki/C3_linearization).
@@ -14,17 +16,14 @@ the lowest to the highest priority. These orders differ from the one used in
 the [Wikipedia](http://en.wikipedia.org/wiki/C3_linearization) article,
 but they allow an efficient implementation.
 
-Install
--------
+## Install
 
-This module is available as a Lua rock:
-
+This module is available in [luarocks](https://luarocks.org):
 ````sh
     luarocks install c3
 ````
 
-Example
--------
+## Example
 
 First, require this module and create an instance of the algorithm
 using your own `superclass` function.
@@ -68,8 +67,7 @@ linearization works as expected:
     assert.are.same (c3 (z ), { o, e, c, b, a, d, k3, k2, k1, z, })
 ````
 
-Cycles
-------
+## Cycles
 
 Cycles can occur in a class hierarchy. They are handled as expected,
 by cutting the `superclass` search when a class has already been encountered.
@@ -83,8 +81,7 @@ by cutting the `superclass` search when a class has already been encountered.
     assert.are.same (c3 (b), { a, b, })
 ````
 
-Errors
-------
+## Errors
 
 Linearization can fail sometimes, but it is quite difficult to get in such
 cases. The example below creates an error, because we try to linearize
@@ -101,8 +98,7 @@ a class `c` with two superclasses with conflicting orders.
     assert.is_truthy (err:match "linearization failed")
 ````
 
-Caching
--------
+## Caching
 
 Linearization uses a cache, that is by default reused between calls.
 It can be emptied using the `clear` method.
@@ -110,3 +106,10 @@ It can be emptied using the `clear` method.
 ````lua
     c3:clear ()
 ````
+
+# Test
+
+Tests are written for [busted](http://olivinelabs.com/busted).
+```bash
+  busted test/*.lua
+```
