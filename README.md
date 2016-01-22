@@ -3,6 +3,8 @@
 
 # C3 superclass linearization
 
+[![Join the chat at https://gitter.im/saucisson/lua-c3](https://badges.gitter.im/saucisson/lua-c3.svg)](https://gitter.im/saucisson/lua-c3?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This module is an implementation in Lua of the
 [C3 linearization algorithm](http://en.wikipedia.org/wiki/C3_linearization).
 
