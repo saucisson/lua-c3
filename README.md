@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/saucisson/lua-c3.svg?branch=master)](https://travis-ci.org/saucisson/lua-c3)
 [![Coverage Status](https://coveralls.io/repos/saucisson/lua-c3/badge.svg?branch=master&service=github)](https://coveralls.io/github/saucisson/lua-c3?branch=master)
+[![Join the chat at https://gitter.im/saucisson/lua-c3](https://badges.gitter.im/saucisson/lua-c3.svg)](https://gitter.im/saucisson/lua-c3?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # C3 superclass linearization
 
