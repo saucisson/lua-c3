@@ -33,6 +33,8 @@ build:
             --include c3 \
             --root src/ \
             --service-name "${WERCKER_GIT_BRANCH}"
+deploy:
+  steps:
     - script:
         name: "upload to luarocks"
         code: |
