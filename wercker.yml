@@ -23,18 +23,6 @@ build:
               "${dir}/bin/busted" src/
             fi
           done
-  after-steps:
-    - script:
-        name: "export to coveralls"
-        code: |
-          luacov-coveralls \
-            --repo-token "${COVERALLS_TOKEN}" \
-            --exclude share --exclude busted --exclude _spec \
-            --include c3 \
-            --root src/ \
-            --service-name "${WERCKER_GIT_BRANCH}"
-deploy:
-  steps:
     - script:
         name: "upload to luarocks"
         code: |
@@ -55,3 +43,13 @@ deploy:
             --api-key="${LUAROCKS_TOKEN}" \
             "c3-${tag}-${count}.rockspec"
           cd ..
+  after-steps:
+    - script:
+        name: "export to coveralls"
+        code: |
+          luacov-coveralls \
+            --repo-token "${COVERALLS_TOKEN}" \
+            --exclude share --exclude busted --exclude _spec \
+            --include c3 \
+            --root src/ \
+            --service-name "${WERCKER_GIT_BRANCH}"
