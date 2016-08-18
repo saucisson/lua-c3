@@ -26,9 +26,12 @@ end
 
 function C3.__call (c3, x)
   assert (getmetatable (c3) == C3)
-  local unpack     = table.unpack or unpack
+  local unpack     = table.unpack or _G.unpack
   local superclass = c3.options.superclass
   local seen       = {}
+  if c3.options.debug then
+    c3.graphs = {}
+  end
   local function linearize (t)
     local cached = c3.cache [t]
     if cached then
@@ -43,9 +46,6 @@ function C3.__call (c3, x)
     local l, n = {}, {}
     if depends and #depends ~= 0 then
       depends = { unpack (depends) }
-      for i = 1, #depends do
-        depends [i] = depends [i]
-      end
       l [#l+1] = depends
       n [#n+1] = #depends
       for i = 1, #depends do
@@ -65,6 +65,37 @@ function C3.__call (c3, x)
     end
     l [#l+1] = { t }
     n [#n+1] = 1
+
+    if c3.options.debug then
+      local filename = assert (os.tmpname ())
+      local file     = io.open (filename, "w")
+      file:write "digraph G {\n"
+      local identifier = 1
+      local nodes      = {}
+      local previous_  = nil
+      for _, xx in ipairs (l) do
+        local previous = nil
+        for _, yy in ipairs (xx) do
+          if not nodes [yy] then
+            nodes [yy] = identifier
+            identifier = identifier + 1
+          end
+          file:write ("  n" .. tostring (nodes [yy]) .. " [shape=box, label=\"" .. tostring (yy) .. "\"];\n")
+          if previous then
+            file:write ("  n" .. nodes [yy] .. " -> n" .. tostring (nodes [previous]) .. " [style=dotted];\n")
+          end
+          previous = yy
+        end
+        if previous_ then
+          file:write ("  n" .. nodes [previous] .. " -> n" .. tostring (nodes [previous_]) .. ";\n")
+        end
+        previous_ = previous
+      end
+      file:write "}\n"
+      file:close ()
+      c3.graphs [#c3.graphs+1] = filename
+    end
+
     -- Compute tails:
     local tails = {}
     for i = 1, #l do
