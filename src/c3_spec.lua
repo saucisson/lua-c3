@@ -11,7 +11,10 @@ describe ("c3 algorithm implementation", function ()
   end)
 
   it ("linearizes correctly a hierarchy", function ()
-    local c3 = require "c3"
+    local C3 = require "c3"
+    local c3 = C3.new {
+      superclass = function (x) return x end,
+    }
     local o  = {}
     local a  = { o, }
     local b  = { o, }
@@ -35,7 +38,10 @@ describe ("c3 algorithm implementation", function ()
   end)
 
   it ("handles cycles", function ()
-    local c3 = require "c3"
+    local C3 = require "c3"
+    local c3 = C3.new {
+      superclass = function (x) return x end,
+    }
     local a, b = {}, {}
     a [1] = b
     b [1] = a
@@ -44,7 +50,10 @@ describe ("c3 algorithm implementation", function ()
   end)
 
   it ("raises an error when linearization is not possible", function ()
-    local c3 = require "c3"
+    local C3 = require "c3"
+    local c3 = C3.new {
+      superclass = function (x) return x end,
+    }
     local a, b = {}, {}
     a [1] = b
     b [1] = a
