@@ -10,6 +10,24 @@ describe ("c3 algorithm implementation", function ()
     end)
   end)
 
+  it ("can be instantiated", function ()
+    assert.has.no.error (function ()
+      local C3 = require "c3"
+      C3.new {
+        superclass = function (x) return x end,
+      }
+    end)
+  end)
+
+  it ("detects non-callable superclass", function ()
+    assert.has.error (function ()
+      local C3 = require "c3"
+      C3.new {
+        superclass = true,
+      }
+    end)
+  end)
+
   it ("linearizes correctly a hierarchy", function ()
     local C3 = require "c3"
     local c3 = C3.new {
@@ -49,7 +67,7 @@ describe ("c3 algorithm implementation", function ()
     assert.are.same (c3 (b), { a, b, })
   end)
 
-  it ("raises an error when linearization is not possible", function ()
+  it ("reports an error when linearization is not possible", function ()
     local C3 = require "c3"
     local c3 = C3.new {
       superclass = function (x) return x end,
@@ -61,6 +79,16 @@ describe ("c3 algorithm implementation", function ()
     local ok, err = pcall (c3, c)
     assert.is_falsy  (ok)
     assert.is_truthy (err:match "linearization failed")
+  end)
+
+  it ("allows to clear the cache", function ()
+    assert.has.no.error (function ()
+      local C3 = require "c3"
+      local c3 = C3.new {
+        superclass = function (x) return x end,
+      }
+      c3:clear ()
+    end)
   end)
 
 end)
