@@ -2,7 +2,8 @@ package = "c3"
 version = "master-1"
 
 source = {
-  url = "git://github.com/saucisson/lua-c3",
+  url    = "git+https://github.com/saucisson/lua-c3.git",
+  branch = "master",
 }
 
 description = {
@@ -15,8 +16,7 @@ description = {
   maintainer = "Alban Linard <alban@linard.fr>",
 }
 
-dependencies = {
-}
+dependencies = {}
 
 build = {
   type    = "builtin",
