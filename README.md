@@ -112,5 +112,5 @@ It can be emptied using the `clear` method.
 
 Tests are written for [busted](http://olivinelabs.com/busted).
 ```bash
-  busted test/*.lua
+  busted src/
 ```
