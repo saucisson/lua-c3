@@ -1,4 +1,6 @@
-box: cosyverif/lua-environments
+box:
+  id: cosyverif/docker-images:luax
+  cmd: /bin/bash
 build:
   steps:
     - script:
