@@ -1,5 +1,13 @@
-local Mt = {}
-local C3 = setmetatable ({}, Mt)
+local Mt    = {}
+local C3    = setmetatable ({}, Mt)
+local Error = {}
+
+function Error.__tostring (e)
+  return "Linearization failed. "
+      .. "The dependency graphs have been output in the DOT format in "
+      .. "(" .. table.concat (e.graphs, ", ") .. "). "
+      .. "Please analyze them to find the problem."
+end
 
 C3.__index = C3
 
@@ -163,7 +171,7 @@ function C3.__call (c3, x)
   if ok then
     return result
   else
-    ok, result = pcall (C3.compute, c3, x, {})
+    ok, result = pcall (C3.compute, c3, x, setmetatable ({}, Error))
     assert (not ok)
     error (result)
   end
