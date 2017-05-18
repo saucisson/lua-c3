@@ -24,13 +24,13 @@ function C3.clear (c3)
   return c3
 end
 
-function C3.__call (c3, x)
+function C3.compute (c3, x, debug)
   assert (getmetatable (c3) == C3)
   local unpack     = table.unpack or _G.unpack
   local superclass = c3.options.superclass
   local seen       = {}
-  if c3.options.debug then
-    c3.graphs = {}
+  if debug then
+    debug.graphs = {}
   end
   local function linearize (t)
     local cached = c3.cache [t]
@@ -66,7 +66,7 @@ function C3.__call (c3, x)
     l [#l+1] = { t }
     n [#n+1] = 1
 
-    if c3.options.debug then
+    if debug then
       local filename = assert (os.tmpname ())
       local file     = io.open (filename, "w")
       file:write "digraph G {\n"
@@ -93,7 +93,7 @@ function C3.__call (c3, x)
       end
       file:write "}\n"
       file:close ()
-      c3.graphs [#c3.graphs+1] = filename
+      debug.graphs [#debug.graphs+1] = filename
     end
 
     -- Compute tails:
@@ -125,7 +125,7 @@ function C3.__call (c3, x)
         end
       end
       if head == nil then
-        error "linearization failed"
+        error (debug and debug or "linearization failed")
       end
       result [#result + 1] = head
       for i = 1, #l do
@@ -154,6 +154,18 @@ function C3.__call (c3, x)
     return result
   end
   return linearize (x)
+end
+
+function C3.__call (c3, x)
+  assert (getmetatable (c3) == C3)
+  local ok, result = pcall (C3.compute, c3, x, false)
+  if ok then
+    return result
+  else
+    ok, result = pcall (C3.compute, c3, x, {})
+    assert (not ok)
+    error (result)
+  end
 end
 
 return C3
