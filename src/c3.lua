@@ -1,8 +1,9 @@
-local C3 = {}
+local Mt = {}
+local C3 = setmetatable ({}, Mt)
 
 C3.__index = C3
 
-function C3.new (options)
+function Mt.__call (_, options)
   assert (type (options) == "table")
   assert (options.superclass)
   -- Check that superclass is callable:

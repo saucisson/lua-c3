@@ -13,7 +13,7 @@ describe ("c3 algorithm implementation", function ()
   it ("can be instantiated", function ()
     assert.has.no.error (function ()
       local C3 = require "c3"
-      C3.new {
+      C3 {
         superclass = function (x) return x end,
       }
     end)
@@ -22,7 +22,7 @@ describe ("c3 algorithm implementation", function ()
   it ("detects non-callable superclass", function ()
     assert.has.error (function ()
       local C3 = require "c3"
-      C3.new {
+      C3 {
         superclass = true,
       }
     end)
@@ -30,7 +30,7 @@ describe ("c3 algorithm implementation", function ()
 
   it ("linearizes correctly a hierarchy", function ()
     local C3 = require "c3"
-    local c3 = C3.new {
+    local c3 = C3 {
       superclass = function (x) return x end,
     }
     local o  = {}
@@ -57,7 +57,7 @@ describe ("c3 algorithm implementation", function ()
 
   it ("handles cycles", function ()
     local C3 = require "c3"
-    local c3 = C3.new {
+    local c3 = C3 {
       superclass = function (x) return x end,
     }
     local a, b = {}, {}
@@ -69,7 +69,7 @@ describe ("c3 algorithm implementation", function ()
 
   it ("reports an error when linearization is not possible", function ()
     local C3 = require "c3"
-    local c3 = C3.new {
+    local c3 = C3 {
       superclass = function (x) return x end,
     }
     local a, b = {}, {}
@@ -85,7 +85,7 @@ describe ("c3 algorithm implementation", function ()
   it ("allows to clear the cache", function ()
     assert.has.no.error (function ()
       local C3 = require "c3"
-      local c3 = C3.new {
+      local c3 = C3 {
         superclass = function (x) return x end,
       }
       c3:clear ()
