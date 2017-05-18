@@ -170,11 +170,10 @@ function C3.__call (c3, x)
   local ok, result = pcall (C3.compute, c3, x, false)
   if ok then
     return result
-  else
-    ok, result = pcall (C3.compute, c3, x, setmetatable ({}, Error))
-    assert (not ok)
-    error (result)
   end
+  ok, result = pcall (C3.compute, c3, x, setmetatable ({}, Error))
+  assert (not ok)
+  error (result)
 end
 
 return C3
