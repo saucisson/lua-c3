@@ -32,7 +32,7 @@ install:
 script:
   - ${HOME}/bin/luacheck src/
   - ${HOME}/bin/busted   src/
-  - ./upload.coveralls
+  - ./upload.coveralls || true
 
 jobs:
   include:
