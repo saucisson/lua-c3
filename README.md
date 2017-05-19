@@ -1,4 +1,4 @@
-[![Build status](https://app.wercker.com/status/fa55db13dcc95b2f844bbf52c2929bfc/s/master "wercker status")](https://app.wercker.com/project/byKey/fa55db13dcc95b2f844bbf52c2929bfc)
+[![Build status](https://travis-ci.org/saucisson/lua-c3.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/saucisson/lua-c3/badge.svg?branch=master&service=github)](https://coveralls.io/github/saucisson/lua-c3?branch=master)
 [![Chat](https://badges.gitter.im/saucisson/lua-c3.svg)](https://gitter.im/saucisson/lua-c3?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
