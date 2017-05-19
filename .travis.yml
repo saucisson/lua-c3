@@ -1,0 +1,54 @@
+language: python
+sudo: false
+dist: trusty
+os:
+  - linux
+env:
+  global:
+    secure: "ND2mG5TnWiovnMVZIM91I6acpobwYC294cFaML36h1IYKYedeLbMvoo7gSQPUhbiFpwe48M9wRxApNw9j31ikTtxtudNteU0ZG4OAHo6xccqt7NTdoe6KYaTx9nCq3xfbzv7EGfa8hx2V62aaPJBQ1ix7BSwtrVKbXMokjSfaEY="
+  matrix:
+    - VERSION="5.1"   WHAT="--lua"
+    - VERSION="5.2"   WHAT="--lua"
+    - VERSION="5.3"   WHAT="--lua"
+    - VERSION="5.2.0" WHAT="--lua"
+    - VERSION="5.2.1" WHAT="--lua"
+    - VERSION="5.2.2" WHAT="--lua"
+    - VERSION="5.3.0" WHAT="--lua"
+    - VERSION="5.3.1" WHAT="--lua"
+    - VERSION="5.3.2" WHAT="--lua"
+    - VERSION="5.3.3" WHAT="--lua"
+    - VERSION="5.3.4" WHAT="--lua"
+    - VERSION="2.0"   WHAT="--luajit"
+    - VERSION="2.0"   WHAT="--luajit" COMPAT="--compat=5.2"
+    - VERSION="2.1"   WHAT="--luajit"
+    - VERSION="2.1"   WHAT="--luajit" COMPAT="--compat=5.2"
+
+install:
+  - pip install hererocks
+  - hererocks --luarocks=^ ${WHAT}=${VERSION} ${COMPAT} ${HOME}/
+  - ${HOME}/bin/luarocks make rockspec/environment-master-1.rockspec
+  - ${HOME}/bin/luarocks make rockspec/c3-master-1.rockspec
+
+script:
+  - ${HOME}/bin/luacheck src/
+  - ${HOME}/bin/busted   src/
+  - ./upload.coveralls
+
+jobs:
+  include:
+    - stage: deploy
+      script:
+        - ./upload.luarocks
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+    recipients:
+      - alban.linard@gmail.com
+  webhooks:
+    on_success: always
+    on_failure: always
+    on_start:   always
+    urls:
+      - https://webhooks.gitter.im/e/d3d5fd7d0a47fef9ea52
