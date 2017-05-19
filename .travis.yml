@@ -7,6 +7,10 @@ env:
   global:
     secure: "ND2mG5TnWiovnMVZIM91I6acpobwYC294cFaML36h1IYKYedeLbMvoo7gSQPUhbiFpwe48M9wRxApNw9j31ikTtxtudNteU0ZG4OAHo6xccqt7NTdoe6KYaTx9nCq3xfbzv7EGfa8hx2V62aaPJBQ1ix7BSwtrVKbXMokjSfaEY="
   matrix:
+    - VERSION="2.0"   WHAT="--luajit"
+    - VERSION="2.1"   WHAT="--luajit"
+    # - VERSION="2.0"   WHAT="--luajit" COMPAT="--compat=5.2"
+    # - VERSION="2.1"   WHAT="--luajit" COMPAT="--compat=5.2"
     - VERSION="5.1"   WHAT="--lua"
     - VERSION="5.2"   WHAT="--lua"
     - VERSION="5.3"   WHAT="--lua"
@@ -18,10 +22,6 @@ env:
     # - VERSION="5.3.2" WHAT="--lua"
     # - VERSION="5.3.3" WHAT="--lua"
     # - VERSION="5.3.4" WHAT="--lua"
-    # - VERSION="2.0"   WHAT="--luajit"
-    - VERSION="2.0"   WHAT="--luajit" COMPAT="--compat=5.2"
-    # - VERSION="2.1"   WHAT="--luajit"
-    - VERSION="2.1"   WHAT="--luajit" COMPAT="--compat=5.2"
 
 install:
   - pip install hererocks
