@@ -3,6 +3,6 @@
 luacov-coveralls \
   --repo-token "${COVERALLS_TOKEN}" \
   --exclude share --exclude busted --exclude _spec \
-  --include coronest \
+  --include c3 \
   --root src/ \
   --service-name "${TRAVIS_BRANCH}"

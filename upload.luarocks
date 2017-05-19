@@ -10,10 +10,10 @@ fi
 cd rockspec || exit 1
 sed -e "s/master-1/${tag}-${count}/" \
     -e "s/master/${tag}/" \
-    "coronest-master-1.rockspec" \
-  > "coronest-${tag}-${count}.rockspec"
+    "c3-master-1.rockspec" \
+  > "c3-${tag}-${count}.rockspec"
 luarocks upload \
   --force \
   --api-key="${LUAROCKS_TOKEN}" \
-  "coronest-${tag}-${count}.rockspec"
+  "c3-${tag}-${count}.rockspec"
 cd ..
