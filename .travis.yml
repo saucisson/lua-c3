@@ -51,4 +51,4 @@ notifications:
     on_failure: always
     on_start:   always
     urls:
-      - https://webhooks.gitter.im/e/d3d5fd7d0a47fef9ea52
+      - https://webhooks.gitter.im/e/8bf8171afe6791da8c4b
