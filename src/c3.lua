@@ -35,7 +35,7 @@ end
 
 function C3.compute (c3, x, debug)
   assert (getmetatable (c3) == C3)
-  local unpack     = table.unpack or _G.unpack
+  local unpack     = table.unpack or _G.unpack -- luacheck: ignore
   local superclass = c3.options.superclass
   local seen       = {}
   if debug then
