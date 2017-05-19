@@ -1,4 +1,4 @@
-package = "c3-env"
+package = "environment"
 version = "master-1"
 
 source = {
