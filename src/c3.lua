@@ -1,12 +1,28 @@
-local Mt    = {}
-local C3    = setmetatable ({}, Mt)
-local Error = {}
+local Colors = require "ansicolors"
+local Mt     = {}
+local C3     = setmetatable ({}, Mt)
+local Error  = {}
 
 function Error.__tostring (e)
-  return "Linearization failed. "
-      .. "The dependency graphs have been output in the DOT format in "
-      .. "(" .. table.concat (e.graphs, ", ") .. "). "
-      .. "Please analyze them to find the problem."
+  local explanation = {}
+  local heads       = {}
+  for _, xx in ipairs (e.groups) do
+    heads [xx [#xx]] = true
+  end
+  for _, xx in ipairs (e.groups) do
+    local subexplanation = {}
+    for _, yy in ipairs (xx) do
+      subexplanation [#subexplanation+1] = heads [yy]
+        and "%{bright red}" .. tostring (yy) .. "%{reset}"
+         or tostring (yy)
+    end
+    subexplanation [#subexplanation+1] = tostring (e.root)
+    explanation [#explanation+1] = "  " .. table.concat (subexplanation, "\n< ")
+  end
+  return "Linearization failed.\n"
+      .. "The following dependencies do not allow linearization using the C3 algorithm. "
+      .. "Please analyze them to find the problem.\n"
+      .. Colors (table.concat (explanation, "\n\n"))
 end
 
 C3.__index = C3
@@ -33,14 +49,11 @@ function C3.clear (c3)
   return c3
 end
 
-function C3.compute (c3, x, debug)
+function C3.__call (c3, x)
   assert (getmetatable (c3) == C3)
   local unpack     = table.unpack or _G.unpack -- luacheck: ignore
   local superclass = c3.options.superclass
   local seen       = {}
-  if debug then
-    debug.graphs = {}
-  end
   local function linearize (t)
     local cached = c3.cache [t]
     if cached then
@@ -75,36 +88,6 @@ function C3.compute (c3, x, debug)
     l [#l+1] = { t }
     n [#n+1] = 1
 
-    if debug then
-      local filename = assert (os.tmpname ())
-      local file     = io.open (filename, "w")
-      file:write "digraph G {\n"
-      local identifier = 1
-      local nodes      = {}
-      local previous_  = nil
-      for _, xx in ipairs (l) do
-        local previous = nil
-        for _, yy in ipairs (xx) do
-          if not nodes [yy] then
-            nodes [yy] = identifier
-            identifier = identifier + 1
-          end
-          file:write ("  n" .. tostring (nodes [yy]) .. " [shape=box, label=\"" .. tostring (yy) .. "\"];\n")
-          if previous then
-            file:write ("  n" .. nodes [yy] .. " -> n" .. tostring (nodes [previous]) .. " [style=dotted];\n")
-          end
-          previous = yy
-        end
-        if previous_ then
-          file:write ("  n" .. nodes [previous] .. " -> n" .. tostring (nodes [previous_]) .. ";\n")
-        end
-        previous_ = previous
-      end
-      file:write "}\n"
-      file:close ()
-      debug.graphs [#debug.graphs+1] = filename
-    end
-
     -- Compute tails:
     local tails = {}
     for i = 1, #l do
@@ -134,7 +117,10 @@ function C3.compute (c3, x, debug)
         end
       end
       if head == nil then
-        error (debug and debug or "linearization failed")
+        error (setmetatable ({
+          root   = t,
+          groups = l,
+        }, Error))
       end
       result [#result + 1] = head
       for i = 1, #l do
@@ -163,17 +149,6 @@ function C3.compute (c3, x, debug)
     return result
   end
   return linearize (x)
-end
-
-function C3.__call (c3, x)
-  assert (getmetatable (c3) == C3)
-  local ok, result = pcall (C3.compute, c3, x, false)
-  if ok then
-    return result
-  end
-  ok, result = pcall (C3.compute, c3, x, setmetatable ({}, Error))
-  assert (not ok)
-  error (result)
 end
 
 return C3

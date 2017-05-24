@@ -16,7 +16,9 @@ description = {
   maintainer = "Alban Linard <alban@linard.fr>",
 }
 
-dependencies = {}
+dependencies = {
+  "ansicolors",
+}
 
 build = {
   type    = "builtin",
