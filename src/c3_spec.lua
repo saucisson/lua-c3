@@ -79,7 +79,6 @@ describe ("c3 algorithm implementation", function ()
     local ok, err = pcall (c3, c)
     assert.is_falsy  (ok)
     assert.is_truthy (type (err) == "table")
-    assert.are.equal (#err.graphs, 1)
   end)
 
   it ("allows to clear the cache", function ()
